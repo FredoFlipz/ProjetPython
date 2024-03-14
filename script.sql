@@ -12,8 +12,7 @@ CREATE TABLE Employee (
 CREATE TABLE User (
   id_user INTEGER PRIMARY KEY AUTOINCREMENT,
   login VARCHAR(50) NOT NULL UNIQUE,
-  hashed_password VARCHAR(255) NOT NULL,
-  salt VARCHAR(128) NOT NULL
+  hashed_password TEXT NOT NULL
 );
 
 CREATE TABLE VacationType (
@@ -59,11 +58,11 @@ INSERT INTO Employee (first_name, name, email, service, hire_date, id_user) VALU
 ('Charlie', 'Durand', 'charlie.durand@example.com', 'Informatique', '2021-12-01', 3),
 ('Diana', 'Lefevre', 'diana.lefevre@example.com', 'Commercial', '2020-08-24', 4);
 
-INSERT INTO User (login, hashed_password, salt) VALUES
-('alice.martin', '$2y$12$abcdefghijklmnopqrstuvwxyz', '$2y$12$abcdefghijklmnopqrstuvwxyz'),
-('bob.dupont', '$2y$12$abcdefghijklmnopqrstuvwxyz', '$2y$12$abcdefghijklmnopqrstuvwxyz'),
-('charlie.durand', '$2y$12$abcdefghijklmnopqrstuvwxyz', '$2y$12$abcdefghijklmnopqrstuvwxyz'),
-('diana.lefevre', '$2y$12$abcdefghijklmnopqrstuvwxyz', '$2y$12$abcdefghijklmnopqrstuvwxyz');
+INSERT INTO User (login, hashed_password) VALUES
+('alice.martin', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9'),
+('bob.dupont', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225'),
+('charlie.durand', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),
+('diana.lefevre', '11a4a60b518bf24989d481468076e5d5982884626aed9faeb35b8576fcd223e1');
 
 
 INSERT INTO VacationType (wording) VALUES
