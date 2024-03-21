@@ -1,16 +1,26 @@
 from flask import Flask, render_template, redirect, url_for, g, current_app, request
+from datetime import datetime
 from pathlib import Path
 import sqlite3
 import hashlib
 
 app = Flask(__name__)
+
+REQUEST_ID_EMPLOYEE = "SELECT Employee.id_employee FROM User INNER JOIN Employee ON User.id_user = Employee.id_user WHERE User.id_user = ?"
+REQUEST_VACATION = "SELECT * FROM VacationRequest WHERE id_employee = ?"
+REQUEST_USER = "SELECT * FROM User WHERE login = ?"
+REQUEST_VACATION_TYPE = "SELECT wording FROM VacationType WHERE id_vacation_type = ?"
+BAD_PASS_MESSAGE = "Mauvais mot de passe"
+
 fichier_db = Path("database.db")
 DATABASE = 'database.db'
 
+# Start region definition -------------------------------------------------------------------------------------
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
+        db.execute("PRAGMA encoding = 'UTF-8';")
     return db
 
 def init_db():
@@ -26,31 +36,57 @@ def hash_password(password):
   hasher.update(password.encode())
   return hasher.hexdigest()
 
+def calculate_number_days(start_date, end_date):
+    start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    end_date = datetime.strptime(end_date, "%Y-%m-%d")
+    nombre_jours = (end_date - start_date).days + 1
+    return nombre_jours
+
+def load_data_vacation(user):
+    cur = get_db().cursor()
+    id_employee = cur.execute(REQUEST_ID_EMPLOYEE, [user[0]]).fetchone()
+    return cur.execute(REQUEST_VACATION, [id_employee[0]]).fetchall()
+# End region definition ---------------------------------------------------------------------------------------
+
+# Start region routes -----------------------------------------------------------------------------------------
 @app.route("/")
 def index():
     init_db()
-    text = hash_password("azerty")
-    return render_template("index.html", text=text)
+    cur = get_db().cursor()
+    text = cur.execute(REQUEST_USER, ["alice.martin"]).fetchone()
+    return render_template("index.html", text=text[1])
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["GET"])
 def login():
     return render_template("login.html")
 
 @app.route("/login-verify", methods=["POST"])
 def login_verify():
-    message = ""
     cur = get_db().cursor()
     username = request.form.get("username")
     password = request.form.get("password")
-    text = cur.execute("SELECT hashed_password FROM User WHERE login = ?",[username]).fetchone()#[0]
-    if not text or not text[0] == hash_password(password):
-        message = "Mauvais mot de passe"
-    #else:
-        #text = "Accès autorisé"
-    return render_template("login.html", text=message)
 
-@app.teardown_appcontext
-def close_connection(exception):
-    db = getattr(g, '_database', None)
-    if db is not None:
-        db.close()
+    user = cur.execute(REQUEST_USER,[username]).fetchone()
+    vacation_request_list = load_data_vacation(user)
+
+    if not user or not user[2] == hash_password(password):
+        return render_template("login.html", text=BAD_PASS_MESSAGE)
+    else:
+        rows_html = ""
+        for vacation_request in vacation_request_list:
+
+            number_days = calculate_number_days(vacation_request[3], vacation_request[4])
+            vacation_type = cur.execute(REQUEST_VACATION_TYPE, [vacation_request[2]]).fetchone()[0]
+            dates = vacation_request[3] + " - " + vacation_request[4]
+            status = vacation_request[6]
+
+            row_html = f"""<tr>
+                          <td>{vacation_type}</td>
+                          <td>{dates}</td>
+                          <td>{number_days}</td>
+                          <td>{status}</td>
+                        </tr>"""
+            rows_html += row_html
+        return render_template('accueil.html', rows=rows_html, prenom=user[1])
+
+# End region routes ---------------------------------------------------------------------------------------

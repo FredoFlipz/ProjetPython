@@ -2,9 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Accueil</title>
 </head>
 <body>
+    <div style="text-align: center">
+        <h1>Bienvenue {{prenom}} dans votre espace</h1>
+    </div>
+    <div>
+        <table>
+          <tr>
+            <th></th>
+            <th>RTT</th>
+            <th>Congés payés</th>
+          </tr>
+          <tr>
+            <th>Acquis</th>
+            <th>10</th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Restant</th>
+            <td></td>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Pris</th>
+            <td></td>
+            <th></th>
+          </tr>
+        </table>
+    </div>
+    <br>
+    <br>
+    <br>
+    <div>
+        <table>
+            <thead>
+            <tr>
+              <th>Type</th>
+              <th>Dates</th>
+              <th>Nombre jours</th>
+              <th>Statut</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ rows | safe }}
+            </tbody>
+        </table>
+    </div>
 
+
+
+
+
+    <style>
+      table {
+        border: 1px solid black;
+        width: 500px;
+      }
+      th, td {
+        border: 1px solid gray;
+        padding: 5px;
+      }
+    </style>
 </body>
 </html>

@@ -12,9 +12,12 @@
     </div>
     <div style="text-align: center;">
       <h2>Accéder à votre espace</h2>
-      <form action="/login" method="post">
+        <a href="{{ url_for('login') }}">
+          <button type="button">Se connecter</button>
+        </a>
+      <!--<form action="/login" method="get">
         <button type="submit">Se connecter</button>
-      </form>
+      </form>-->
     </div>
 </body>
 </html>

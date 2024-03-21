@@ -27,7 +27,7 @@ CREATE TABLE VacationRequest (
   start_date DATE NOT NULL,
   end_date DATE NOT NULL,
   number_days INTEGER NOT NULL CHECK (number_days > 0),
-  status TEXT NOT NULL CHECK (status IN ('pending', 'approved', 'rejected')),
+  status TEXT NOT NULL CHECK (status IN ('en attente', 'approuvee', 'rejetee')),
   request_date DATE NOT NULL,
   FOREIGN KEY (id_employee) REFERENCES Employee(id_employee) ON DELETE CASCADE,
   FOREIGN KEY (id_vacation_type) REFERENCES VacationType(id_vacation_type) ON DELETE RESTRICT
@@ -60,20 +60,19 @@ INSERT INTO Employee (first_name, name, email, service, hire_date, id_user) VALU
 
 INSERT INTO User (login, hashed_password) VALUES
 ('alice.martin', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9'),
-('bob.dupont', '15e2b0d3c33891ebb0f1ef609ec419420c20e320ce94c65fbc8c3312448eb225'),
+('bob.dupont', 'f2d81a260dea8a100dd517984e53c56a7523d96942a834b9cdc249bd4e8c7aa9'),
 ('charlie.durand', '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08'),
 ('diana.lefevre', '11a4a60b518bf24989d481468076e5d5982884626aed9faeb35b8576fcd223e1');
 
-
 INSERT INTO VacationType (wording) VALUES
-('Congés payés'),
+('Conges payes'),
 ('RTT');
 
 INSERT INTO VacationRequest (id_employee, id_vacation_type, start_date, end_date, number_days, status, request_date) VALUES
-(1, 1, '2024-03-20', '2024-03-25', 5, 'pending', '2024-02-15'),
-(2, 2, '2024-04-01', '2024-04-01', 1, 'approved', '2024-03-08'),
-(3, 3, '2024-02-10', '2024-02-15', 5, 'rejected', '2024-01-30'),
-(4, 4, '2024-05-10', '2024-06-05', 20, 'pending', '2024-03-10');
+(1, 2, '2024-03-20', '2024-03-25', 5, 'en attente', '2024-02-15'),
+(2, 1, '2024-04-01', '2024-04-01', 1, 'approuvee', '2024-03-08'),
+(3, 2, '2024-02-10', '2024-02-15', 5, 'rejetee', '2024-01-30'),
+(4, 1, '2024-05-10', '2024-06-05', 20, 'en attente', '2024-03-10');
 
 INSERT INTO VacationValidation (id_vacation_request, id_employee, validation_date) VALUES
 (2, 1, '2024-03-12'),
