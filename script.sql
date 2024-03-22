@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS Employee;
 CREATE TABLE Employee (
   id_employee INTEGER PRIMARY KEY AUTOINCREMENT,
   first_name TEXT NOT NULL,
@@ -9,17 +10,20 @@ CREATE TABLE Employee (
   FOREIGN KEY (id_user) REFERENCES User(id_user) ON DELETE CASCADE
 );
 
+DROP TABLE IF EXISTS User;
 CREATE TABLE User (
   id_user INTEGER PRIMARY KEY AUTOINCREMENT,
   login VARCHAR(50) NOT NULL UNIQUE,
   hashed_password TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS VacationType;
 CREATE TABLE VacationType (
   id_vacation_type INTEGER PRIMARY KEY AUTOINCREMENT,
   wording TEXT NOT NULL
 );
 
+DROP TABLE IF EXISTS VacationRequest;
 CREATE TABLE VacationRequest (
   id_vacation_request INTEGER PRIMARY KEY AUTOINCREMENT,
   id_employee INTEGER NOT NULL,
@@ -33,6 +37,7 @@ CREATE TABLE VacationRequest (
   FOREIGN KEY (id_vacation_type) REFERENCES VacationType(id_vacation_type) ON DELETE RESTRICT
 );
 
+DROP TABLE IF EXISTS VacationValidation;
 CREATE TABLE VacationValidation (
   id_validation INTEGER PRIMARY KEY AUTOINCREMENT,
   id_vacation_request INTEGER NOT NULL,
@@ -42,14 +47,15 @@ CREATE TABLE VacationValidation (
   FOREIGN KEY (id_employee) REFERENCES Employee(id_employee) ON DELETE RESTRICT
 );
 
+DROP TABLE IF EXISTS VacationLeaveBalance;
 CREATE TABLE VacationLeaveBalance (
   id_vacation INTEGER PRIMARY KEY AUTOINCREMENT,
   id_employee INTEGER NOT NULL,
-  id_vacation_type INTEGER NOT NULL,
-  rest_day_pay INTEGER,
-  rest_work_time_reduction INTEGER,
-  FOREIGN KEY (id_employee) REFERENCES Employee(id_employee) ON DELETE CASCADE,
-  FOREIGN KEY (id_vacation_type) REFERENCES VacationType(id_vacation_type) ON DELETE RESTRICT
+  day_used_payed INTEGER,
+  day_reduction_used INTEGER,
+  day_acquired_payed INTEGER,
+  day_reduction_acquired INTEGER,
+  FOREIGN KEY (id_employee) REFERENCES Employee(id_employee) ON DELETE CASCADE
 );
 
 INSERT INTO Employee (first_name, name, email, service, hire_date, id_user) VALUES
@@ -78,9 +84,9 @@ INSERT INTO VacationValidation (id_vacation_request, id_employee, validation_dat
 (2, 1, '2024-03-12'),
 (3, 2, '2024-02-05');
 
-INSERT INTO VacationLeaveBalance (id_employee, id_vacation_type, rest_day_pay, rest_work_time_reduction) VALUES
-(1, 1, 20, 0),
-(2, 1, 15, 5),
-(3, 1, 25, 0),
-(4, 1, 22, 3);
+INSERT INTO VacationLeaveBalance (id_employee, day_used_payed, day_reduction_used, day_acquired_payed, day_reduction_acquired) VALUES
+(1, 10, 1, 25, 10),
+(2, 8, 4, 12, 8),
+(3, 15, 2, 32, 8),
+(4, 15, 0, 36, 15);
 

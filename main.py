@@ -10,17 +10,17 @@ REQUEST_ID_EMPLOYEE = "SELECT Employee.id_employee FROM User INNER JOIN Employee
 REQUEST_VACATION = "SELECT * FROM VacationRequest WHERE id_employee = ?"
 REQUEST_USER = "SELECT * FROM User WHERE login = ?"
 REQUEST_VACATION_TYPE = "SELECT wording FROM VacationType WHERE id_vacation_type = ?"
+REQUEST_VACATION_DATA = "SELECT * FROM VacationLeaveBalance WHERE id_employee = ?"
 BAD_PASS_MESSAGE = "Mauvais mot de passe"
 
-fichier_db = Path("database.db")
-DATABASE = 'database.db'
+fichier_db = Path("datasbase.db")
+DATABASE = 'datasbase.db'
 
 # Start region definition -------------------------------------------------------------------------------------
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect(DATABASE)
-        db.execute("PRAGMA encoding = 'UTF-8';")
     return db
 
 def init_db():
@@ -31,6 +31,7 @@ def init_db():
                 instructions = sql_file.read()
                 connection.cursor().executescript(instructions)
             connection.commit()
+
 def hash_password(password):
   hasher = hashlib.sha256()
   hasher.update(password.encode())
@@ -42,9 +43,14 @@ def calculate_number_days(start_date, end_date):
     nombre_jours = (end_date - start_date).days + 1
     return nombre_jours
 
+def get_id_employee(user):
+    cur = get_db().cursor()
+    return cur.execute(REQUEST_ID_EMPLOYEE, [user[0]]).fetchone()
+
 def load_data_vacation(user):
     cur = get_db().cursor()
-    id_employee = cur.execute(REQUEST_ID_EMPLOYEE, [user[0]]).fetchone()
+    #id_employee = cur.execute(REQUEST_ID_EMPLOYEE, [user[0]]).fetchone()
+    id_employee = get_id_employee(user)
     return cur.execute(REQUEST_VACATION, [id_employee[0]]).fetchall()
 # End region definition ---------------------------------------------------------------------------------------
 
@@ -52,9 +58,7 @@ def load_data_vacation(user):
 @app.route("/")
 def index():
     init_db()
-    cur = get_db().cursor()
-    text = cur.execute(REQUEST_USER, ["alice.martin"]).fetchone()
-    return render_template("index.html", text=text[1])
+    return render_template("index.html")
 
 @app.route("/login", methods=["GET"])
 def login():
@@ -66,7 +70,7 @@ def login_verify():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    user = cur.execute(REQUEST_USER,[username]).fetchone()
+    user = cur.execute(REQUEST_USER, [username]).fetchone()
     vacation_request_list = load_data_vacation(user)
 
     if not user or not user[2] == hash_password(password):
@@ -87,6 +91,18 @@ def login_verify():
                           <td>{status}</td>
                         </tr>"""
             rows_html += row_html
-        return render_template('accueil.html', rows=rows_html, prenom=user[1])
+
+            datas_vacation = cur.execute(REQUEST_VACATION_DATA, get_id_employee(user)).fetchone()
+
+        return render_template(
+            'accueil.html',
+            rows=rows_html, prenom=user[1],
+            a_cp=datas_vacation[4],
+            a_rtt=datas_vacation[5],
+            p_cp=datas_vacation[2],
+            p_rtt=datas_vacation[3],
+            r_cp=datas_vacation[4] - datas_vacation[2],
+            r_rtt=datas_vacation[5] - datas_vacation[3]
+        )
 
 # End region routes ---------------------------------------------------------------------------------------

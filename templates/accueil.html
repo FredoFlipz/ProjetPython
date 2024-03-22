@@ -6,6 +6,8 @@
 </head>
 <body>
     <div style="text-align: center">
+        <a href="/login"><img src="/static/images/fleche_retour.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
+        <a href="/"><img src="/static/images/home.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
         <h1>Bienvenue {{prenom}} dans votre espace</h1>
     </div>
     <div>
@@ -17,18 +19,18 @@
           </tr>
           <tr>
             <th>Acquis</th>
-            <th>10</th>
-            <th></th>
+            <th>{{a_cp}}</th>
+            <th>{{a_rtt}}</th>
           </tr>
           <tr>
             <th>Restant</th>
-            <td></td>
-            <th></th>
+            <td>{{r_cp}}</td>
+            <th>{{r_rtt}}</th>
           </tr>
           <tr>
             <th>Pris</th>
-            <td></td>
-            <th></th>
+            <td>{{p_cp}}</td>
+            <th>{{p_rtt}}</th>
           </tr>
         </table>
     </div>
@@ -51,9 +53,7 @@
         </table>
     </div>
 
-
-
-
+    <a href="/login"><img src="/static/images/ete.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
 
     <style>
       table {
