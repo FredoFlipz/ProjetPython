@@ -1,0 +1,42 @@
+README du Projet Python
+Bienvenue dans mon système de gestion des congés ! Ce projet vise à fournir une plateforme pour gérer les demandes de congés des employés au sein d'une organisation.
+
+
+
+/!\ Ce projet actuel de gestion des congés n'est qu'une démonstration à des fins éducatives et ne reflète pas entièrement l'utilisation d'un véritable système de gestion des congés tel que ceux utilisés dans les entreprises ou les organisations /!\
+
+Fonctionnalités:
+-Authentification des Utilisateurs : Les utilisateurs peuvent se connecter de manière sécurisée à l'aide de leur nom d'utilisateur et de leur mot de passe.
+-Gestion des Demandes de Congés : Les employés peuvent soumettre des demandes de congés, qui peuvent ensuite être examinées et approuvées/rejetées par le personnel des ressources humaines (RH).
+-Jours de Congé Restants : Les utilisateurs peuvent consulter leurs jours de congé restants et voir combien de jours ils ont utilisés et combien il leur reste.
+-Calcul Dynamique des Congés : Le système calcule dynamiquement le nombre de jours de congé restants en fonction de l'historique des congés de l'utilisateur.
+
+Il y a plusieurs utilisateurs qui peuvent se connecter.
+Login: alice.martin, bob.dupont, charlie.durand ayant le mot de passe "azerty"
+L'utilisateur "diana.lefevre" correspond à la RH qui gère les demandes de congés. Sont mot de passe est "azerty"
+
+
+
+Technologies Utilisées:
+-Flask : Flask est un micro-framework Web écrit en Python. Il fournit des outils, des bibliothèques et des technologies pour créer des applications Web.
+-SQLite : SQLite est un moteur de base de données SQL léger, sans serveur et autonome. Il est utilisé ici pour stocker et gérer les données utilisateur et les demandes de congés.
+-HTML/CSS/JavaScript : Ce sont les technologies frontales utilisées pour construire l'interface utilisateur et ajouter de l'interactivité à l'application.
+-Hashlib : Hashlib est une bibliothèque Python utilisée pour hacher les mots de passe afin d'assurer une authentification sécurisée.
+
+Installation:
+Pour exécuter l'application en local, suivez ces étapes
+
+Clonez le dépôt sur votre machine locale.
+Installez les dépendances nécessaires en exécutant pip install -r requirements.txt.
+Initialisez la base de données SQLite en exécutant python app.py. Cela créera les tables nécessaires dans la base de données.
+Une fois la base de données initialisée, démarrez le serveur Flask en exécutant flask run.
+Accédez à l'application dans votre navigateur Web à l'adresse http://localhost:5000.
+
+Utilisation:
+Accédez à la page de connexion et saisissez votre nom d'utilisateur et votre mot de passe.
+Après vous être connecté, vous serez dirigé vers le tableau de bord, où vous pourrez consulter vos jours de congé restants et soumettre des demandes de congé.
+Le personnel RH peut examiner et gérer les demandes de congés depuis le tableau de bord RH.
+
+
+Auteurs:
+Frédéric Porcheron
