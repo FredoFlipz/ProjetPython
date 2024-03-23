@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des demandes de congés</title>
+</head>
+<body>
+    <div style="text-align: center">
+        <a href="/login"><img src="/static/images/deconnecter.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
+        <h1>Gestion des demandes de congés</h1>
+    </div>
+    <div>
+        <table style="width: 25%;">
+            <thead>
+                <tr style="width: 100%">
+                    <th>Employé</th>
+                    <th style="width: 40%">Type</th>
+                    <th style="width: 100%">Dates</th>
+                    <th>Nombre jours</th>
+                    <th>Statut</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{ rows | safe }}
+                <form id="vacation-form" method="post">
+                    <input type="hidden" name="id" id="request-id">
+                    <input type="hidden" name="username" id="username">
+                    <input type="hidden" name="password" id="password">
+                    <input type="hidden" name="action" id="action">
+                    <input type="hidden" name="imployee_id" id="imployee_id">
+                </form>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+    function acceptRequest(id, username, password, imployee_id) {
+        document.getElementById('request-id').value = id;
+        document.getElementById('username').value = username;
+        document.getElementById('password').value = password;
+        document.getElementById('imployee_id').value = imployee_id;
+        document.getElementById('action').value = 'approve';
+        document.getElementById('vacation-form').action = '/approve-request';
+        document.getElementById('vacation-form').submit();
+    }
+
+    function rejectRequest(id, username, password) {
+        document.getElementById('request-id').value = id;
+        document.getElementById('username').value = username;
+        document.getElementById('password').value = password;
+        document.getElementById('action').value = 'reject';
+        document.getElementById('vacation-form').action = '/reject-request';
+        document.getElementById('vacation-form').submit();
+    }
+    </script>
+
+    <style>
+        table {
+            border: 1px solid black;
+            width: 500px;
+        }
+        th, td {
+            border: 1px solid gray;
+            padding: 5px;
+        }
+    </style>
+</body>
+</html>

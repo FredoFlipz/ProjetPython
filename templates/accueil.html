@@ -6,16 +6,15 @@
 </head>
 <body>
     <div style="text-align: center">
-        <a href="/login"><img src="/static/images/fleche_retour.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
-        <a href="/"><img src="/static/images/home.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
+        <a href="/login"><img src="/static/images/deconnecter.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
         <h1>Bienvenue {{prenom}} dans votre espace</h1>
     </div>
     <div>
         <table>
           <tr>
             <th></th>
-            <th>RTT</th>
             <th>Congés payés</th>
+            <th>RTT</th>
           </tr>
           <tr>
             <th>Acquis</th>
@@ -52,8 +51,12 @@
             </tbody>
         </table>
     </div>
-
-    <a href="/login"><img src="/static/images/ete.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
+    <form action="/demande" method="post">
+        <input type="hidden" name="id" value={{id}}>
+        <input type="hidden" name="username" value={{username}}>
+        <input type="hidden" name="password" value={{password}}>
+        <input type="image" name="saison" src="/static/images/ete.png" alt="Envoyer" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;">
+    </form>
 
     <style>
       table {

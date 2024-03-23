@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demande de congés</title>
+</head>
+<body style="text-align: center">
+<h1>Demande de congés</h1>
+
+  <form action="/calcul" method="post" onsubmit="return validateDates()">
+    <label for="type">Type de congé:</label>
+    <select name="type" id="type">
+      <option value="1">Congés payés</option>
+      <option value="2">RTT</option>
+    </select>
+    <br>
+    <label for="date_debut">Date de début:</label>
+    <input type="date" name="date_debut" id="date_debut" min="{{min_date}}">
+    <input type="hidden" name="id_user" value={{id}}>
+    <input type="hidden" name="username" value={{username}}>
+    <input type="hidden" name="password" value={{password}}>
+    <br>
+    <label for="date_fin">Date de fin:</label>
+    <input type="date" name="date_fin" id="date_fin" min="{{min_date}}">
+    <br>
+    <input type="submit" value="Envoyer">
+  </form>
+<a href="/infos" method="post"><img src="/static/images/deconnecter.png" style="float: left; margin-right: 10px; margin-left: 25px; margin-top: 25px; width: 30px; height: 30px; border: 1px solid black;"></a>
+
+<script>
+  function validateDates() {
+    const dateDebut = document.getElementById("date_debut").value;
+    const dateFin = document.getElementById("date_fin").value;
+
+    if (dateDebut === "" || dateFin === "") {
+      alert("Veuillez renseigner les deux dates de congé.");
+      return false;
+    }
+
+    return true;
+  }
+ document.getElementById("redirectForm").submit();
+</script>
+
+
+  <style>
+    body {
+      font-family: sans-serif;
+      font-size: 16px;
+    }
+    h1 {
+      font-size: 24px;
+      margin-top: 0;
+    }
+    label {
+      display: block;
+      margin-bottom: 10px;
+    }
+    input[type="text"],
+    input[type="date"] {
+      width: 200px;
+      padding: 5px;
+      border: 1px solid #ccc;
+    }
+    input[type="submit"] {
+      cursor: pointer;
+      background-color: #000;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+    }
+  </style>
+</body>
+</html>
