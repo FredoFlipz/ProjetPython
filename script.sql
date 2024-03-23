@@ -10,7 +10,6 @@ CREATE TABLE Employee (
   FOREIGN KEY (id_user) REFERENCES User(id_user) ON DELETE CASCADE
 );
 
-
 CREATE TABLE User (
   id_user INTEGER PRIMARY KEY AUTOINCREMENT,
   login VARCHAR(50) NOT NULL UNIQUE,
@@ -18,12 +17,10 @@ CREATE TABLE User (
   is_hr BOOLEAN NOT NULL
 );
 
-
 CREATE TABLE VacationType (
   id_vacation_type INTEGER PRIMARY KEY AUTOINCREMENT,
   wording TEXT NOT NULL
 );
-
 
 CREATE TABLE VacationRequest (
   id_vacation_request INTEGER PRIMARY KEY AUTOINCREMENT,
